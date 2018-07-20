@@ -10,5 +10,5 @@ def word_count(str):
 
     return counts
 
-a=raw_input("Enter the string")
+a=raw_input("Enter the sentence to count the words")
 print(word_count(a))
