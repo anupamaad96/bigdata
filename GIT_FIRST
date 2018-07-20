@@ -1,0 +1,104 @@
+
+
+GETTING IN GIT:
+
+inapp@inapp-PC:~$ cd git
+
+GIVE THIS ONCE AND IT GETS REGISTERED:
+
+inapp@inapp-PC:~/git$ git config --global user.email anupama.da@inapp.com
+inapp@inapp-PC:~/git$ git config --global user.name anupamaad96
+
+
+inapp@inapp-PC:~/git$ git commit -m "hello"
+fatal: Not a git repository (or any of the parent directories): .git
+
+inapp@inapp-PC:~/git$ cd git
+bash: cd: git: No such file or directory
+inapp@inapp-PC:~/git$ cd hi
+bash: cd: hi: No such file or directory
+inapp@inapp-PC:~/git$ 
+inapp@inapp-PC:~/git$ 
+inapp@inapp-PC:~/git$ cd hi
+bash: cd: hi: No such file or directory
+inapp@inapp-PC:~/git$ 
+inapp@inapp-PC:~/git$ 
+inapp@inapp-PC:~/git$ cd hi
+bash: cd: hi: No such file or directory
+inapp@inapp-PC:~/git$ 
+inapp@inapp-PC:~/git$ 
+inapp@inapp-PC:~/git$ cd hi
+bash: cd: hi: No such file or directory
+inapp@inapp-PC:~/git$ pwd
+/home/inapp/git
+
+
+TO GET OUT OF THE GIT
+
+inapp@inapp-PC:~/git$ cd ..
+inapp@inapp-PC:~$ ls
+anu              Documents              Music           PycharmProjects
+anu.txt          Downloads              mydatabase.sql  script.sh
+assignment1.sql  examples.desktop       mysql.sql       sys.sql
+datetime         git                    Pictures        Templates
+datetime.txt     hi                     project1.sql    Videos
+Desktop          Java poratability.odt  Public
+
+THE FOLDER CREATED IS 'HI',TO OPEN THE FOLDER,:
+
+inapp@inapp-PC:~$ cd hi
+
+INSIDE THE FOLDER 'HI' WE HAVE THE FILE 'Java portability'
+
+inapp@inapp-PC:~/hi$ ls
+Java poratability.odt
+
+PATH::
+
+inapp@inapp-PC:~/hi$ pwd
+/home/inapp/hi
+
+inapp@inapp-PC:~/hi$ ls
+Java poratability.odt
+
+TO CREATE A REPOSITORY(THE FOLLOWING COMMAND MAKES THE FOLDER 'HI' READY  )
+inapp@inapp-PC:~/hi$ git init
+
+Initialized empty Git repository in /home/inapp/hi/.git/
+
+ADDS ALL THE FILES /DATAS THAT COMES INSIDE 'HI'
+
+inapp@inapp-PC:~/hi$ git add .
+
+COMMITS THE DATA'S
+
+inapp@inapp-PC:~/hi$ git commit -m "Add ODT"
+[master (root-commit) 1c95cb0] Add ODT
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 Java poratability.odt
+
+TO PUSH THE DATA INTO REPOSITORY WE FIRST (GET THE LINK (https://github.com/anupamaad96/testing)FROM THE WEBSITE  )
+
+inapp@inapp-PC:~/hi$ git remote add origin https://github.com/anupamaad96/testing
+
+PUSHING THE DATA INTO
+
+inapp@inapp-PC:~/hi$ git push origin master
+
+THEY ALWAYS ASKS FOR THIS :USERNAME AND PASSWORD
+
+Username for 'https://github.com': anupamaad96
+Password for 'https://anupamaad96@github.com': 
+Counting objects: 3, done.
+
+Delta compression using up to 4 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 9.42 KiB | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To https://github.com/anupamaad96/testing
+ * [new branch]      master -> master
+
+inapp@inapp-PC:~/hi$ https://github.com/anupamaad96/testing
+bash: https://github.com/anupamaad96/testing: No such file or directory
+inapp@inapp-PC:~/hi$ 
+
