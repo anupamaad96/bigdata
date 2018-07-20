@@ -1,0 +1,228 @@
+:::::QUERY:::::
+
+
+1:::: DISPLAY PICTURE ID'S OF PICTURES POSTED BY USEDID '1'
+
+mysql> select picid from pictures where USERID='1';
++-------+
+| picid |
++-------+
+| 1     |
+| 2     |
++-------+
+
+
+2::::CAPTIONS OF PICTURES POSTED BY '2'.DISPLAY NO CAPTION IF NOT HAVING ANY VALUE,
+
+mysql> select caption from pictures where USERID='2';
++----------+
+| caption  |
++----------+
+| birthday |
++----------+
+
+mysql> alter table pictures alter caption set default 'no caption';
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+mysql> desc pictures;
++----------+-------------+------+-----+------------+-------+
+| Field    | Type        | Null | Key | Default    | Extra |
++----------+-------------+------+-----+------------+-------+
+| picid    | varchar(5)  | NO   | PRI | NULL       |       |
+| TAGID    | varchar(5)  | YES  | MUL | NULL       |       |
+| USERID   | varchar(20) | YES  | MUL | NULL       |       |
+| datepost | date        | YES  |     | NULL       |       |
+| picpath  | varchar(20) | YES  |     | NULL       |       |
+| caption  | varchar(10) | YES  |     | no caption |       |
++----------+-------------+------+-----+------------+-------+
+6 rows in set (0.00 sec)
+
+
+
+3::::WHICH PICTURES(ID) AND BY WHICH USERS(ID)HAVE BEEN POSTED IN LAST ONE YEAR
+
+mysql> select  USERID,picid from pictures where datepost>curdate()-interval 1 year;
++--------+-------+
+| USERID | picid |
++--------+-------+
+| 3      | 3     |
+| 2      | 4     |
+| 4      | 5     |
++--------+-------+
+
+
+4::::PICTURE THAT RECEIVED MAXIMUM LIKES
+
+mysql> select picture,count(*) as cnt from likes group by picture order by cnt desc limit 1;
++---------+-----+
+| picture | cnt |
++---------+-----+
+| 3       |   4 |
++---------+-----+
+1 row in set (0.00 sec)
+
+
+5::::PICTURES IN DESCENDING ORDER ON THE BASIS OF LIKES RECEIVED
+
+mysql> select picture,count(*) as cnt from likes group by picture order by cnt desc;
++---------+-----+
+| picture | cnt |
++---------+-----+
+| 3       |   4 |
+| 1       |   3 |
+| 2       |   2 |
+| 7       |   1 |
++---------+-----+
+
+
+6::::PICTURE ID'S OF PICTURES WITH MORE THAN THREE LIKES
+
+mysql> select picture from likes group by picture having count(picture)>3;
++---------+
+| picture |
++---------+
+| 1       |
++---------+
+1 row in set (0.00 sec)
+
+
+7::::DISPLAY USER ID THAT LIKED THE LEAST PICTURE
+
+mysql> select user,count(*) as cnt from likes group by user order by cnt desc limit 1;
++------+-----+
+| user | cnt |
++------+-----+
+| 1    |   4 |
++------+-----+
+1 row in set (0.00 sec)
+
+
+
+8::::PICTURES WITH MORE THAN 3 TAGS
+
+mysql> select tagpicID from tags group by tagpicID having count(tagpicID) > 3;
++----------+
+| tagpicID |
++----------+
+|        1 |
++----------+
+1 row in set (0.00 sec)
+
+9::::DISPLAY PICTURES WITH CAPTION'LONDON'
+
+mysql> select picid from pictures where caption='london';
++-------+
+| picid |
++-------+
+| 1     |
+| 6     |
++-------+
+
+10::::DISPLAY PICTURE ID,YEAR POSTED BY USER 3 IN LAST 5 YEARS
+
+mysql> select year(datepost),picid from pictures where USERID=3 and datepost>=curdate()-interval 5 year;
++----------------+-------+
+| year(datepost) | picid |
++----------------+-------+
+|           2018 | 3     |
+|           2017 | 6     |
+|           2017 | 7     |
++----------------+-------+
+
+11::::DISPLAY FIRST AND LAST NAME OF ALL USERS HAVING AN ACOUNT IN EITHER GMAIL OR YAHOO
+
+mysql> select first,second from users where emailid like '%gmail%' or emailid like '%yahoo%';
++-------+--------+
+| first | second |
++-------+--------+
+| a     | klip   |
+| KP    | sony   |
+| manu  | da     |
+| k     | kumar  |
++-------+--------+
+4 rows in set (0.00 sec)
+
+
+12::::ADD NEW USER WITH USER NAME ,FIRST NAME, LAST NAME AND EMAIL.
+
+mysql> insert into users values('athira','vl','athira@inapp.com','123');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from users;
++-----------+--------+---------------------+--------+
+| first     | second | emailid             | userid |
++-----------+--------+---------------------+--------+
+| anupama   | dinesh | anu@inapp.com       | 1      |
+| Vasudev   | D.A.   | vasu@gamil.com      | 10     |
+| a         | klip   | a@gmail.com         | 11     |
+| athira    | vl     | athira@inapp.com    | 123    |
+| sangeetha | s      | sangeetha@inapp.com | 2      |
+| teena     | ann    | teena@inapp.com     | 3      |
+| shruti    |        | shruti@inapp.com    | 4      |
+| KP        | sony   | kpsony@gmail.com    | 5      |
+| manu      | da     | manu@yahoo.com      | 7      |
+| k         | kumar  | k.jive@yahoo.com    | 9      |
++-----------+--------+---------------------+--------+
+
+13:::::ADD A LIKE BY USER 
+
+mysql> insert into likes('7','6');
+mysql> select * from likes;                                                     +---------+------+
+| picture | user |
++---------+------+
+| 1       | 1    |
+| 1       | 2    |
+| 2       | 4    |
+| 3       | 4    |
+| 3       | 1    |
+| 3       | 2    |
+| 7       | 1    |
+| 6       | 7    |
++---------+------+
+ 
+14::::
+
+mysql> delete from likes where user='3';
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from likes;
++---------+------+
+| picture | user |
++---------+------+
+| 1       | 1    |
+| 1       | 2    |
+| 2       | 4    |
+| 3       | 4    |
+| 3       | 1    |
+| 3       | 2    |
+| 7       | 1    |
+| 6       | 7    |
+| 1       | 5    |
+| 1       | 7    |
+| 2       | 7    |
+| 4       | 1    |
++---------+------+
+
+15::::
+
+mysql> update users set second='kumar' where userid='9';
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+
+16:::: LEAST LIKED USER 
+
+mysql> select user,count(*) as cnt from likes group by user order by cnt Asc limit 1;
++------+-----+
+| user | cnt |
++------+-----+
+| 5    |   1 |
++------+-----+
+1 row in set (0.01 sec)
+
+
+
+

@@ -1,0 +1,1004 @@
+mysql> create database project1;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use project1
+Database changed
+
+mysql> create table users(
+    -> first varchar(20),
+    -> second varchar(20),
+    -> emailid varchar(30),
+    -> userid varchar(10));
+Query OK, 0 rows affected (0.41 sec)
+
+mysql> desc users;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| first   | varchar(20) | YES  |     | NULL    |       |
+| second  | varchar(20) | YES  |     | NULL    |       |
+| emailid | varchar(30) | YES  |     | NULL    |       |
+| userid  | varchar(10) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table users add primary key(userid);
+Query OK, 0 rows affected (0.49 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc users;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| first   | varchar(20) | YES  |     | NULL    |       |
+| second  | varchar(20) | YES  |     | NULL    |       |
+| emailid | varchar(30) | YES  |     | NULL    |       |
+| userid  | varchar(10) | NO   | PRI | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into users values('anupama','dinesh','anu@inapp.com','1');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into users values('sangeetha','s','sangeetha@inapp.com','2');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into users values('teena','ann','teena@inapp.com','3');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into users values('shruti','','shruti@inapp.com','4');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from users           
+    -> ;
++-----------+--------+---------------------+--------+
+| first     | second | emailid             | userid |
++-----------+--------+---------------------+--------+
+| anupama   | dinesh | anu@inapp.com       | 1      |
+| sangeetha | s      | sangeetha@inapp.com | 2      |
+| teena     | ann    | teena@inapp.com     | 3      |
+| shruti    |        | shruti@inapp.com    | 4      |
++-----------+--------+---------------------+--------+
+4 rows in set (0.00 sec)
+
+
+mysql> create table tag(tagid varchar(5),
+    -> tagname varchar(20));
+Query OK, 0 rows affected (0.28 sec)
+
+mysql> desc tag
+    -> ;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| tagid   | varchar(5)  | YES  |     | NULL    |       |
+| tagname | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table tag add primary key(tagid);
+Query OK, 0 rows affected (0.67 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc tag;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| tagid   | varchar(5)  | NO   | PRI | NULL    |       |
+| tagname | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table pictures add primary key(picid);
+Query OK, 0 rows affected (0.51 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+
+mysql> create table pictures(
+    -> picid varchar(5),
+    -> TAGID varchar(5),
+    -> USERID varchar(20),
+    -> datepost date,
+    -> picpath varchar(20),
+    -> caption varchar(10));
+Query OK, 0 rows affected (0.26 sec)
+
+mysql> alter table pictures add foreign key(TAGID) references tag(tagid);
+Query OK, 0 rows affected (0.94 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table pictures add foreign key(USERID) references users(userid);
+Query OK, 0 rows affected (0.78 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table pictures add primary key(picid);
+Query OK, 0 rows affected (0.58 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc pictures;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| picid    | varchar(5)  | NO   | PRI | NULL    |       |
+| TAGID    | varchar(5)  | YES  | MUL | NULL    |       |
+| USERID   | varchar(20) | YES  | MUL | NULL    |       |
+| datepost | date        | YES  |     | NULL    |       |
+| picpath  | varchar(20) | YES  |     | NULL    |       |
+| caption  | varchar(10) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> create table likes(
+    -> picture varchar(5),
+    -> user varchar(20));
+Query OK, 0 rows affected (0.26 sec)
+
+
+mysql> alter table likes add foreign key(user) references users(userid);
+Query OK, 0 rows affected (0.73 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+mysql> alter table likes add foreign key(picture) references pictures(picid);
+Query OK, 0 rows affected (0.90 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc likes
+    -> ;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| picture | varchar(5)  | YES  | MUL | NULL    |       |
+| user    | varchar(20) | YES  | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc tag;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| tagid   | varchar(5)  | NO   | PRI | NULL    |       |
+| tagname | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc pictures;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| picid    | varchar(5)  | NO   | PRI | NULL    |       |
+| TAGID    | varchar(5)  | YES  | MUL | NULL    |       |
+| USERID   | varchar(20) | YES  | MUL | NULL    |       |
+| datepost | date        | YES  |     | NULL    |       |
+| picpath  | varchar(20) | YES  |     | NULL    |       |
+| caption  | varchar(10) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> desc users;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| first   | varchar(20) | YES  |     | NULL    |       |
+| second  | varchar(20) | YES  |     | NULL    |       |
+| emailid | varchar(30) | YES  |     | NULL    |       |
+| userid  | varchar(10) | NO   | PRI | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+
+mysql> select * from  users;
++-----------+--------+---------------------+--------+
+| first     | second | emailid             | userid |
++-----------+--------+---------------------+--------+
+| anupama   | dinesh | anu@inapp.com       | 1      |
+| sangeetha | s      | sangeetha@inapp.com | 2      |
+| teena     | ann    | teena@inapp.com     | 3      |
+| shruti    |        | shruti@inapp.com    | 4      |
++-----------+--------+---------------------+--------+
+4 rows in set (0.00 sec)
+
+
+mysql> insert into users values('KP','sony','kpsony@gmail.com','5');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from  users;
++-----------+--------+---------------------+--------+
+| first     | second | emailid             | userid |
++-----------+--------+---------------------+--------+
+| anupama   | dinesh | anu@inapp.com       | 1      |
+| sangeetha | s      | sangeetha@inapp.com | 2      |
+| teena     | ann    | teena@inapp.com     | 3      |
+| shruti    |        | shruti@inapp.com    | 4      |
+| KP        | sony   | kpsony@gmail.com    | 5      |
++-----------+--------+---------------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> desc pictures;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| picid    | varchar(5)  | NO   | PRI | NULL    |       |
+| TAGID    | varchar(5)  | YES  | MUL | NULL    |       |
+| USERID   | varchar(20) | YES  | MUL | NULL    |       |
+| datepost | date        | YES  |     | NULL    |       |
+| picpath  | varchar(20) | YES  |     | NULL    |       |
+| caption  | varchar(10) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+
+mysql> desc tag;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| tagid   | varchar(5)  | NO   | PRI | NULL    |       |
+| tagname | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into tag values
+    -> ('1','art');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into tag values ('2','science');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into tag values ('3','music');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into tag values ('4','history');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into tag values ('5','engineering');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from tag;
++-------+-------------+
+| tagid | tagname     |
++-------+-------------+
+| 1     | art         |
+| 2     | science     |
+| 3     | music       |
+| 4     | history     |
+| 5     | engineering |
++-------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> desc pictures;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| picid    | varchar(5)  | NO   | PRI | NULL    |       |
+| TAGID    | varchar(5)  | YES  | MUL | NULL    |       |
+| USERID   | varchar(20) | YES  | MUL | NULL    |       |
+| datepost | date        | YES  |     | NULL    |       |
+| picpath  | varchar(20) | YES  |     | NULL    |       |
+| caption  | varchar(10) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> insert into pictures values('1','1','1','2015-01-19','/home/pictures/1p','London');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into pictures values('2','1','1','2015-01-19','/home/pictures/1p','no caption');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from pictures;
++-------+-------+--------+------------+-------------------+------------+
+| picid | TAGID | USERID | datepost   | picpath           | caption    |
++-------+-------+--------+------------+-------------------+------------+
+| 1     | 1     | 1      | 2015-01-19 | /home/pictures/1p | London     |
+| 2     | 1     | 1      | 2015-01-19 | /home/pictures/1p | no caption |
++-------+-------+--------+------------+-------------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into pictures values('2','5','3','2018-01-19','/home/pictures/3p','computers');
+ERROR 1062 (23000): Duplicate entry '2' for key 'PRIMARY'
+mysql> insert into pictures values('3','5','3','2018-01-19','/home/pictures/3p','computers');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select picid from pictures where USERID='1';
++-------+
+| picid |
++-------+
+| 1     |
+| 2     |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into pictures values('4','2','2','2018-08-01','/home/pictures/3p','birthday');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select caption from pictures where USERID='2';
++----------+
+| caption  |
++----------+
+| birthday |
++----------+
+1 row in set (0.00 sec)
+
+
+mysql> insert into pictures values('5','2','4','2017-08-01','/home/pictures/4p','bdaylast');
+Query OK, 1 row affected (0.04 sec)
+
+
+
+mysql> select year(datepost),picid from pictures where USERID=3 and datepost>=curdate()-interval 5 year;
++----------------+-------+
+| year(datepost) | picid |
++----------------+-------+
+|           2018 | 3     |
++----------------+-------+
+1 row in set (0.00 sec)
+
+mysql> select year(datepost),picid from pictures where datepost-curdate()=0;
+Empty set (0.00 sec)
+
+mysql> select year(datepost),picid from pictures where datepost-curdate()>1;
++----------------+-------+
+| year(datepost) | picid |
++----------------+-------+
+|           2018 | 4     |
++----------------+-------+
+1 row in set (0.00 sec)
+
+mysql> select datepost,picid,USERID from pictures where datepost-curdate()>1;
++------------+-------+--------+
+| datepost   | picid | USERID |
++------------+-------+--------+
+| 2018-08-01 | 4     | 2      |
++------------+-------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from pictures;
++-------+-------+--------+------------+-------------------+------------+
+| picid | TAGID | USERID | datepost   | picpath           | caption    |
++-------+-------+--------+------------+-------------------+------------+
+| 1     | 1     | 1      | 2015-01-19 | /home/pictures/1p | London     |
+| 2     | 1     | 1      | 2015-01-19 | /home/pictures/1p | no caption |
+| 3     | 5     | 3      | 2018-01-19 | /home/pictures/3p | computers  |
+| 4     | 2     | 2      | 2018-08-01 | /home/pictures/3p | birthday   |
+| 5     | 2     | 4      | 2017-08-01 | /home/pictures/4p | bdaylast   |
++-------+-------+--------+------------+-------------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select datepost,picid,USERID from pictures where datepost-curdate()<1;
++------------+-------+--------+
+| datepost   | picid | USERID |
++------------+-------+--------+
+| 2015-01-19 | 1     | 1      |
+| 2015-01-19 | 2     | 1      |
+| 2018-01-19 | 3     | 3      |
+| 2017-08-01 | 5     | 4      |
++------------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> insert into pictures values('6','3','3','2017-07-16','/home/pic/pic1','LonDoN');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select datepost,picid,USERID from pictures where datepost-curdate()<1;
++------------+-------+--------+
+| datepost   | picid | USERID |
++------------+-------+--------+
+| 2015-01-19 | 1     | 1      |
+| 2015-01-19 | 2     | 1      |
+| 2018-01-19 | 3     | 3      |
+| 2017-08-01 | 5     | 4      |
+| 2017-07-16 | 6     | 3      |
++------------+-------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select datepost,picid,USERID from pictures where datepost-curdate()>1;
++------------+-------+--------+
+| datepost   | picid | USERID |
++------------+-------+--------+
+| 2018-08-01 | 4     | 2      |
++------------+-------+--------+
+1 row in set (0.00 sec)
+
+mysql> select datepost,picid,USERID from pictures where datepost-curdate()>1;
++------------+-------+--------+
+| datepost   | picid | USERID |
++------------+-------+--------+
+| 2018-08-01 | 4     | 2      |
++------------+-------+--------+
+1 row in set (0.00 sec)
+
+
+mysql> alter table pictures alter caption set default 'no caption';
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+mysql> desc pictures;
++----------+-------------+------+-----+------------+-------+
+| Field    | Type        | Null | Key | Default    | Extra |
++----------+-------------+------+-----+------------+-------+
+| picid    | varchar(5)  | NO   | PRI | NULL       |       |
+| TAGID    | varchar(5)  | YES  | MUL | NULL       |       |
+| USERID   | varchar(20) | YES  | MUL | NULL       |       |
+| datepost | date        | YES  |     | NULL       |       |
+| picpath  | varchar(20) | YES  |     | NULL       |       |
+| caption  | varchar(10) | YES  |     | no caption |       |
++----------+-------------+------+-----+------------+-------+
+6 rows in set (0.00 sec)
+
+
+mysql> insert into pictures(picid,TAGID,USERID,datepost,picpath) values('7','3','3','2017-07-16','/home/pic/pic1');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from pictures;
++-------+-------+--------+------------+-------------------+------------+
+| picid | TAGID | USERID | datepost   | picpath           | caption    |
++-------+-------+--------+------------+-------------------+------------+
+| 1     | 1     | 1      | 2015-01-19 | /home/pictures/1p | London     |
+| 2     | 1     | 1      | 2015-01-19 | /home/pictures/1p | no caption |
+| 3     | 5     | 3      | 2018-01-19 | /home/pictures/3p | computers  |
+| 4     | 2     | 2      | 2018-08-01 | /home/pictures/3p | birthday   |
+| 5     | 2     | 4      | 2017-08-01 | /home/pictures/4p | bdaylast   |
+| 6     | 3     | 3      | 2017-07-16 | /home/pic/pic1    | LonDoN     |
+| 7     | 3     | 3      | 2017-07-16 | /home/pic/pic1    | no caption |
++-------+-------+--------+------------+-------------------+------------+
+7 rows in set (0.00 sec)
+
+
+mysql> desc pictures;
++----------+-------------+------+-----+------------+-------+
+| Field    | Type        | Null | Key | Default    | Extra |
++----------+-------------+------+-----+------------+-------+
+| picid    | varchar(5)  | NO   | PRI | NULL       |       |
+| TAGID    | varchar(5)  | YES  | MUL | NULL       |       |
+| USERID   | varchar(20) | YES  | MUL | NULL       |       |
+| datepost | date        | YES  |     | NULL       |       |
+| picpath  | varchar(20) | YES  |     | NULL       |       |
+| caption  | varchar(10) | YES  |     | no caption |       |
++----------+-------------+------+-----+------------+-------+
+6 rows in set (0.00 sec)
+
+mysql> desc tag;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| tagid   | varchar(5)  | NO   | PRI | NULL    |       |
+| tagname | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+
+mysql> desc likes
+    -> ;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| picture | varchar(5)  | YES  | MUL | NULL    |       |
+| user    | varchar(20) | YES  | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into likes values('1','1');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into likes values('1','2');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into likes values('1','3');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into likes values('2','3');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into likes values('2','4');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from likes;
++---------+------+
+| picture | user |
++---------+------+
+| 1       | 1    |
+| 1       | 2    |
+| 1       | 3    |
+| 2       | 3    |
+| 2       | 4    |
++---------+------+
+5 rows in set (0.00 sec)
+
+mysql> desc pictures;
++----------+-------------+------+-----+------------+-------+
+| Field    | Type        | Null | Key | Default    | Extra |
++----------+-------------+------+-----+------------+-------+
+| picid    | varchar(5)  | NO   | PRI | NULL       |       |
+| TAGID    | varchar(5)  | YES  | MUL | NULL       |       |
+| USERID   | varchar(20) | YES  | MUL | NULL       |       |
+| datepost | date        | YES  |     | NULL       |       |
+| picpath  | varchar(20) | YES  |     | NULL       |       |
+| caption  | varchar(10) | YES  |     | no caption |       |
++----------+-------------+------+-----+------------+-------+
+6 rows in set (0.00 sec)
+
+
+mysql> select * from pictures;
++-------+-------+--------+------------+-------------------+------------+
+| picid | TAGID | USERID | datepost   | picpath           | caption    |
++-------+-------+--------+------------+-------------------+------------+
+| 1     | 1     | 1      | 2015-01-19 | /home/pictures/1p | London     |
+| 2     | 1     | 1      | 2015-01-19 | /home/pictures/1p | no caption |
+| 3     | 5     | 3      | 2018-01-19 | /home/pictures/3p | computers  |
+| 4     | 2     | 2      | 2018-08-01 | /home/pictures/3p | birthday   |
+| 5     | 2     | 4      | 2017-08-01 | /home/pictures/4p | bdaylast   |
+| 6     | 3     | 3      | 2017-07-16 | /home/pic/pic1    | LonDoN     |
+| 7     | 3     | 3      | 2017-07-16 | /home/pic/pic1    | no caption |
++-------+-------+--------+------------+-------------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select year(datepost),picid from pictures where USERID=3 and datepost>=curdate()-interval 5 year;
++----------------+-------+
+| year(datepost) | picid |
++----------------+-------+
+|           2018 | 3     |
+|           2017 | 6     |
+|           2017 | 7     |
++----------------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select year USERID,picid from pictures where USERID=3 and datepost<curdate()-interval 1 year;
+ERROR 1054 (42S22): Unknown column 'year' in 'field list'
+mysql> select  USERID,picid from pictures where USERID=3 and datepost<curdate()-interval 1 year;
+Empty set (0.00 sec)
+
+mysql> select  USERID,picid from pictures where datepost<curdate()-interval 1 year;
++--------+-------+
+| USERID | picid |
++--------+-------+
+| 1      | 1     |
+| 1      | 2     |
++--------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select  USERID,picid from pictures where datepost>curdate()-interval 1 year;
++--------+-------+
+| USERID | picid |
++--------+-------+
+| 3      | 3     |
+| 2      | 4     |
+| 4      | 5     |
++--------+-------+
+3 rows in set (0.00 sec)
+
+
+mysql> desc tag
+    -> ;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| tagid   | varchar(5)  | NO   | PRI | NULL    |       |
+| tagname | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc pictures;
++----------+-------------+------+-----+------------+-------+
+| Field    | Type        | Null | Key | Default    | Extra |
++----------+-------------+------+-----+------------+-------+
+| picid    | varchar(5)  | NO   | PRI | NULL       |       |
+| TAGID    | varchar(5)  | YES  | MUL | NULL       |       |
+| USERID   | varchar(20) | YES  | MUL | NULL       |       |
+| datepost | date        | YES  |     | NULL       |       |
+| picpath  | varchar(20) | YES  |     | NULL       |       |
+| caption  | varchar(10) | YES  |     | no caption |       |
++----------+-------------+------+-----+------------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select picture,count(*) as cnt from likes group by picture order by cnt desc limit 1;
++---------+-----+
+| picture | cnt |
++---------+-----+
+| 1       |   3 |
++---------+-----+
+1 row in set (0.00 sec)
+
+mysql> desc tag;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| tagid   | varchar(5)  | NO   | PRI | NULL    |       |
+| tagname | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+
+mysql> alter table tag add tagpicID varchar(5);
+Query OK, 0 rows affected (0.84 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc tag
+    -> ;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| tagid    | varchar(5)  | NO   | PRI | NULL    |       |
+| tagname  | varchar(20) | YES  |     | NULL    |       |
+| tagpicID | varchar(5)  | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc pictures;
++----------+-------------+------+-----+------------+-------+
+| Field    | Type        | Null | Key | Default    | Extra |
++----------+-------------+------+-----+------------+-------+
+| picid    | varchar(5)  | NO   | PRI | NULL       |       |
+| TAGID    | varchar(5)  | YES  | MUL | NULL       |       |
+| USERID   | varchar(20) | YES  | MUL | NULL       |       |
+| datepost | date        | YES  |     | NULL       |       |
+| picpath  | varchar(20) | YES  |     | NULL       |       |
+| caption  | varchar(10) | YES  |     | no caption |       |
++----------+-------------+------+-----+------------+-------+
+6 rows in set (0.00 sec)
+
+mysql> alter table pictures add tagpicID varchar(5);
+Query OK, 0 rows affected (0.80 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc pictures;
++----------+-------------+------+-----+------------+-------+
+| Field    | Type        | Null | Key | Default    | Extra |
++----------+-------------+------+-----+------------+-------+
+| picid    | varchar(5)  | NO   | PRI | NULL       |       |
+| TAGID    | varchar(5)  | YES  | MUL | NULL       |       |
+| USERID   | varchar(20) | YES  | MUL | NULL       |       |
+| datepost | date        | YES  |     | NULL       |       |
+| picpath  | varchar(20) | YES  |     | NULL       |       |
+| caption  | varchar(10) | YES  |     | no caption |       |
+| tagpicID | varchar(5)  | YES  |     | NULL       |       |
++----------+-------------+------+-----+------------+-------+
+7 rows in set (0.00 sec)
+
+mysql> insert into pictures values('8','1','1','2000-10-01','home/pic3','captioned','1');
+Query OK, 1 row affected (0.05 sec)
+
+
+mysql> select picture,count(*) as cnt from likes group by picture order by cnt desc limit 1;
++---------+-----+
+| picture | cnt |
++---------+-----+
+| 1       |   3 |
++---------+-----+
+1 row in set (0.00 sec)
+
+
+mysql> select * from likes;
++---------+------+
+| picture | user |
++---------+------+
+| 1       | 1    |
+| 1       | 2    |
+| 1       | 3    |
+| 2       | 3    |
+| 2       | 4    |
++---------+------+
+5 rows in set (0.00 sec)
+
+
+mysql> insert into likes values('3','4');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into likes values('3','1');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into likes values('3','2');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into likes values('3','3');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into likes values('7','1');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from likes;
++---------+------+
+| picture | user |
++---------+------+
+| 1       | 1    |
+| 1       | 2    |
+| 1       | 3    |
+| 2       | 3    |
+| 2       | 4    |
+| 3       | 4    |
+| 3       | 1    |
+| 3       | 2    |
+| 3       | 3    |
+| 7       | 1    |
++---------+------+
+10 rows in set (0.00 sec)
+
+mysql> select picture from likes group by picture having count(picture)>3;
++---------+
+| picture |
++---------+
+| 3       |
++---------+
+1 row in set (0.00 sec)
+
+mysql> select picture,count(*) as cnt from likes group by picture order by cnt desc limit 1;
++---------+-----+
+| picture | cnt |
++---------+-----+
+| 3       |   4 |
++---------+-----+
+1 row in set (0.00 sec)
+
+mysql> select picture,count(*) as cnt from likes group by picture order by cnt desc;
++---------+-----+
+| picture | cnt |
++---------+-----+
+| 3       |   4 |
+| 1       |   3 |
+| 2       |   2 |
+| 7       |   1 |
++---------+-----+
+4 rows in set (0.00 sec)
+
+mysql> select * from pictures;
++-------+-------+--------+------------+-------------------+------------+----------+
+| picid | TAGID | USERID | datepost   | picpath           | caption    | tagpicID |
++-------+-------+--------+------------+-------------------+------------+----------+
+| 1     | 1     | 1      | 2015-01-19 | /home/pictures/1p | London     | NULL     |
+| 2     | 1     | 1      | 2015-01-19 | /home/pictures/1p | no caption | NULL     |
+| 3     | 5     | 3      | 2018-01-19 | /home/pictures/3p | computers  | NULL     |
+| 4     | 2     | 2      | 2018-08-01 | /home/pictures/3p | birthday   | NULL     |
+| 5     | 2     | 4      | 2017-08-01 | /home/pictures/4p | bdaylast   | NULL     |
+| 6     | 3     | 3      | 2017-07-16 | /home/pic/pic1    | LonDoN     | NULL     |
+| 7     | 3     | 3      | 2017-07-16 | /home/pic/pic1    | no caption | NULL     |
+| 8     | 1     | 1      | 2000-10-01 | home/pic3         | captioned  | 1        |
++-------+-------+--------+------------+-------------------+------------+----------+
+8 rows in set (0.00 sec)
+
+mysql> select * from users;
++-----------+--------+---------------------+--------+
+| first     | second | emailid             | userid |
++-----------+--------+---------------------+--------+
+| anupama   | dinesh | anu@inapp.com       | 1      |
+| sangeetha | s      | sangeetha@inapp.com | 2      |
+| teena     | ann    | teena@inapp.com     | 3      |
+| shruti    |        | shruti@inapp.com    | 4      |
+| KP        | sony   | kpsony@gmail.com    | 5      |
++-----------+--------+---------------------+--------+
+5 rows in set (0.00 sec)
+
+
+mysql> insert into users values('k','jive','k.jive@yahoo.com','9');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> update users set second='kumar' where userid='9';
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from users;
++-----------+--------+---------------------+--------+
+| first     | second | emailid             | userid |
++-----------+--------+---------------------+--------+
+| anupama   | dinesh | anu@inapp.com       | 1      |
+| sangeetha | s      | sangeetha@inapp.com | 2      |
+| teena     | ann    | teena@inapp.com     | 3      |
+| shruti    |        | shruti@inapp.com    | 4      |
+| KP        | sony   | kpsony@gmail.com    | 5      |
+| k         | kumar  | k.jive@yahoo.com    | 9      |
++-----------+--------+---------------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from likes;
++---------+------+
+| picture | user |
++---------+------+
+| 1       | 1    |
+| 1       | 2    |
+| 1       | 3    |
+| 2       | 3    |
+| 2       | 4    |
+| 3       | 4    |
+| 3       | 1    |
+| 3       | 2    |
+| 3       | 3    |
+| 7       | 1    |
++---------+------+
+10 rows in set (0.00 sec)
+
+mysql> delete from likes where user='3';
+Query OK, 3 rows affected (0.04 sec)
+
+mysql> select * from likes;
++---------+------+
+| picture | user |
++---------+------+
+| 1       | 1    |
+| 1       | 2    |
+| 2       | 4    |
+| 3       | 4    |
+| 3       | 1    |
+| 3       | 2    |
+| 7       | 1    |
++---------+------+
+7 rows in set (0.00 sec)
+
+mysql> insert into users values('manu','da','manu@yahoo.com','7');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into likes values('6','7');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from likes;
++---------+------+
+| picture | user |
++---------+------+
+| 1       | 1    |
+| 1       | 2    |
+| 2       | 4    |
+| 3       | 4    |
+| 3       | 1    |
+| 3       | 2    |
+| 7       | 1    |
+| 6       | 7    |
++---------+------+
+8 rows in set (0.00 sec)
+
+mysql> insert into users values('Vasudev','D.A.','vasu@gamil.com','10');
+Query OK, 1 row affected (0.04 sec)
+
+
+mysql> select first,second from users where emailid like '%gmail%' or emailid like '%yahoo%';
++-------+--------+
+| first | second |
++-------+--------+
+| KP    | sony   |
+| manu  | da     |
+| k     | kumar  |
++-------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select user,count(*) as cnt from likes group by user order by cnt desc limit 1;
++------+-----+
+| user | cnt |
++------+-----+
+| 1    |   3 |
++------+-----+
+1 row in set (0.00 sec)
+
+mysql> select * from likes;
++---------+------+
+| picture | user |
++---------+------+
+| 1       | 1    |
+| 1       | 2    |
+| 2       | 4    |
+| 3       | 4    |
+| 3       | 1    |
+| 3       | 2    |
+| 7       | 1    |
+| 6       | 7    |
++---------+------+
+8 rows in set (0.00 sec)
+
+mysql> select * from pictures;
++-------+-------+--------+------------+-------------------+------------+----------+
+| picid | TAGID | USERID | datepost   | picpath           | caption    | tagpicID |
++-------+-------+--------+------------+-------------------+------------+----------+
+| 1     | 1     | 1      | 2015-01-19 | /home/pictures/1p | London     | NULL     |
+| 2     | 1     | 1      | 2015-01-19 | /home/pictures/1p | no caption | NULL     |
+| 3     | 5     | 3      | 2018-01-19 | /home/pictures/3p | computers  | NULL     |
+| 4     | 2     | 2      | 2018-08-01 | /home/pictures/3p | birthday   | NULL     |
+| 5     | 2     | 4      | 2017-08-01 | /home/pictures/4p | bdaylast   | NULL     |
+| 6     | 3     | 3      | 2017-07-16 | /home/pic/pic1    | LonDoN     | NULL     |
+| 7     | 3     | 3      | 2017-07-16 | /home/pic/pic1    | no caption | NULL     |
+| 8     | 1     | 1      | 2000-10-01 | home/pic3         | captioned  | 1        |
++-------+-------+--------+------------+-------------------+------------+----------+
+8 rows in set (0.00 sec)
+
+mysql> select picid from pictures where caption='london';
++-------+
+| picid |
++-------+
+| 1     |
+| 6     |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from tag;
++-------+-------------+----------+
+| tagid | tagname     | tagpicID |
++-------+-------------+----------+
+| 1     | art         | NULL     |
+| 2     | science     | NULL     |
+| 3     | music       | NULL     |
+| 4     | history     | NULL     |
+| 5     | engineering | NULL     |
++-------+-------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> create table tags(tagpicID int,tagnames varchar(20));
+Query OK, 0 rows affected (0.26 sec)
+
+
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| tagpicID | int(11)     | YES  |     | NULL    |       |
+| tagnames | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into tags values(1,'art');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into tags values(1,'music');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into tags values(3,'science');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into tags values(2,'history');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into tags values(2,'art');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into tags values(1,'engineering');
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  select tagpicID  as cnt from likes group by tagnames order by cnt desc limit 1
+    -> ;
+
++----------+-------------+
+| tagpicID | tagnames    |
++----------+-------------+
+|        1 | art         |
+|        1 | music       |
+|        3 | science     |
+|        2 | history     |
+|        2 | art         |
+|        1 | engineering |
++----------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select tagpicID,count(*) as cnt from tags group by tagpicID order by cnt desc limit 1;
++----------+-----+
+| tagpicID | cnt |
++----------+-----+
+|        1 |   3 |
++----------+-----+
+1 row in set (0.00 sec)
+
+mysql> select tagpicID as cnt from tags group by tagpicID order by cnt desc limit 1;
++------+
+| cnt  |
++------+
+|    3 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select tagpicID,count(*) as cnt from tags group by tagpicID order by cnt desc;
++----------+-----+
+| tagpicID | cnt |
++----------+-----+
+|        1 |   3 |
+|        2 |   2 |
+|        3 |   1 |
++----------+-----+
+3 rows in set (0.00 sec)
+
+ 1
+mysql> select tagpicID from tags group by tagpicID having count(tagpicID) > 3;
+Empty set (0.00 sec)
+
+mysql> insert into tags values(1,'history');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select tagpicID from tags group by tagpicID having count(tagpicID) > 3;
++----------+
+| tagpicID |
++----------+
+|        1 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> 
